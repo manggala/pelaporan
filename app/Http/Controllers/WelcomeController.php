@@ -1,14 +1,6 @@
 <?php namespace App\Http\Controllers;
 use DB;
-use Auth;
-use Input;
-use Validator;
-use App\User;
-use App\Pelapor;
-use App\Admin;
-use Authenticatable;
-use Session;
-use DateTime;
+use App\Operator;
 class WelcomeController extends Controller {
 
 	/*

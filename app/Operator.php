@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Model extends Model {
+class Operator extends Model {
 
-	protected $table = "admin";
+	protected $table = "operator";
 
 }
