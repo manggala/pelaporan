@@ -11,4 +11,20 @@
 |
 */
 
-Route::get('/', ['as' => 'home','uses' =>'WelcomeController@Index']);
+Route::get('/', ['as' => 'home','uses' =>'WelcomeController@dashboard']);
+
+Route::get('/preoperation', ['as' => 'preoperation', 'uses' => 'PreOperationController@index']);
+
+Route::get('/preoperation/grafik', ['as' => 'preoperation.grafik', 'uses' => 'PreOperationController@grafik']);
+
+Route::get('/preoperation/grafik/data/{id}', 'AjaxController@getData');
+
+Route::get('/preoperation/tolakKonfirmasi/{id}', ['as' => 'preoperation.tolakKonfirmasi', 'uses' => 'PreOperationController@tolakKonfirmasi']);
+
+Route::get('/preoperation/izinkanKonfirmasi/{id}', ['as' => 'preoperation.izinkanKonfirmasi', 'uses' => 'PreOperationController@izinkanKonfirmasi']);
+
+Route::get('/ajax/detail/{tipe}/{id}', 'AjaxController@detail');
+
+Route::get('/ajax/konfirmasi/{tipe}/{id}', 'AjaxController@konfirmasi');
+
+Route::get('/nearmiss', ['as' => 'nearmiss', 'uses' => 'NearmissController@index']);
