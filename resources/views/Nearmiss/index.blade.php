@@ -15,7 +15,7 @@
                   <th>Pelapor</th>
                   <th>Penanggung Jawab</th>
                   <th>Lokasi</th>
-                  <th>Tanggal</th>
+                  <th>Waktu</th>
                   <th>Aksi</th>
                 </tr>
                 </thead>
