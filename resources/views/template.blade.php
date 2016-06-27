@@ -279,16 +279,20 @@ function HideShowen(target){
       var target = $(target);
       var idBarChart = $("#idBarChart");
       var parent = idBarChart.parent();
-      $.get("{{URL::to('preoperation/grafik/data/')}}"+"/"+target.attr("idPertanyaan"), function(data){
-        $("#headerChart").text("Pertanyaan " + target.attr("idPertanyaan"));
-        parent.children().remove();
-        parent.append(idBarChart);
-        areaChartData["labels"] = data['label'];
-        areaChartData["datasets"][0]["data"] = data['count'];
-        console.log(data);
-        console.log(areaChartData);
-        VisualizeChart();
-      })
+      $.get("{{URL::to('preoperation/grafik/data/')}}"+"/"+target.attr("idPertanyaan")+"/"+$("#head_truck").val(), function(data){
+        if (data != 0){
+          $("#headerChart").text("Pertanyaan " + target.attr("idPertanyaan") + ", ID Head Truck " + $("#head_truck").val());
+          parent.children().remove();
+          parent.append(idBarChart);
+          areaChartData["labels"] = data['label'];
+          areaChartData["datasets"][0]["data"] = data['count'];
+          console.log(data);
+          console.log(areaChartData);
+          VisualizeChart();
+        } else {
+          $("#headerChart").text("Tidak ada data");
+        }
+      });
     }
     function VisualizeChart(){
       var barChartCanvas = $("#barChart").get(0).getContext("2d");

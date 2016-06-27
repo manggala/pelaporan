@@ -11,13 +11,17 @@
 |
 */
 
-Route::get('/', ['as' => 'home','uses' =>'WelcomeController@dashboard']);
+//Route::get('/', ['as' => 'home','uses' =>'WelcomeController@dashboard']);
+
+Route::get('/', ['as' => 'login', 'uses' => 'WelcomeController@login']);
+
+Route::get('/dashboard', ['as' => 'home','uses' =>'WelcomeController@dashboard']);
 
 Route::get('/preoperation', ['as' => 'preoperation', 'uses' => 'PreOperationController@index']);
 
 Route::get('/preoperation/grafik', ['as' => 'preoperation.grafik', 'uses' => 'PreOperationController@grafik']);
 
-Route::get('/preoperation/grafik/data/{id}', 'AjaxController@getData');
+Route::get('/preoperation/grafik/data/{idPertanyaan}/{head_truck}', 'AjaxController@getData');
 
 Route::get('/preoperation/tolakKonfirmasi/{id}', ['as' => 'preoperation.tolakKonfirmasi', 'uses' => 'PreOperationController@tolakKonfirmasi']);
 

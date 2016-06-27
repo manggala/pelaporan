@@ -40,6 +40,7 @@ class PreOperationController extends Controller {
 	}
 
 	public function grafik(){
-		return View('PreOperation.grafik');
+		$head_truck = DB::table("head_truck")->get();
+		return View('PreOperation.grafik', ['head_truck' => $head_truck]);
 	}
 }

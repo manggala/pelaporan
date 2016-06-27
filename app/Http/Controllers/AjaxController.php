@@ -37,33 +37,33 @@ class AjaxController extends Controller {
 		}
 	}
 
-	public function getData($id){
+	public function getData($idPertanyaan, $head_truck){
 		$listOfAnswer = array();
 		$answer = array(
 				"label" => "",
 				"count" => 0
 			);
-		$preoperation = DB::table("preoperation")->get();
+		$preoperation = DB::table("preoperation")->where("id_headtruck", "=", $head_truck)->get();
 		$preoperationArray = array();
 		$preoperationArray = json_decode(json_encode($preoperation), True);
 		foreach ($preoperationArray as $po) {
 			if (count($listOfAnswer) == 0){
 				$answer = array(
-					"label" => $po["pertanyaan_$id"],
+					"label" => $po["pertanyaan_$idPertanyaan"],
 					"count" => 1
 				);
 				array_push($listOfAnswer, $answer);
 			} else {
 				$counter = 0;
 				for ($a = 0; $a < count($listOfAnswer); $a++){
-					if ($listOfAnswer[$a]["label"] == $po["pertanyaan_$id"]){
+					if ($listOfAnswer[$a]["label"] == $po["pertanyaan_$idPertanyaan"]){
 						$listOfAnswer[$a]["count"] = $listOfAnswer[$a]["count"] + 1;
 						$counter++;
 					}
 				}
 				if ($counter == 0){
 					$answer = array(
-						"label" => $po["pertanyaan_$id"],
+						"label" => $po["pertanyaan_$idPertanyaan"],
 						"count" => 1
 					);
 					array_push($listOfAnswer, $answer);
@@ -76,6 +76,8 @@ class AjaxController extends Controller {
 			array_push($label, $loa["label"]);
 			array_push($count, $loa["count"]);
 		}
-		return ["label" => $label, "count" => $count];
+		if (count($count) > 0)
+			return ["label" => $label, "count" => $count];
+		else return 0;
 	}
 }

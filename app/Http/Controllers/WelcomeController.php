@@ -37,4 +37,8 @@ class WelcomeController extends Controller {
 	public function dashboard(){
 		return View("Main.dashboard");
 	}
+
+	public function login(){
+		return View("Main.login");
+	}
 }

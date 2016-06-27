@@ -4,9 +4,21 @@
 	<div class="box box-success">
 	    <div class="box-header">
 	      <i class="fa fa-question-circle"></i>
-	      <h3 class="box-title">Pertanyaan</h3>
+	      <h3 class="box-title">Grafik Berdasarkan Headtruck dan Pertanyaan</h3>
 	    </div>
 	    <div class="box-body">
+	    	<div class="row">
+	    		<div class="col-md-12">
+	    			<label for="headtruck">Pilih Head Truck</label>
+	    			<select class="form-control" id="head_truck">
+	    				@foreach($head_truck as $ht)
+	    					<option>{{ $ht->id_head_truck}}</option>
+	    				@endforeach
+	    			</select>
+	    		</div>
+	    	</div>
+	    	<hr>
+	    	<h5>Pilih Pertanyaan</h5>
 	    	<div class="row">
 	    		<div class="col-md-12 ">
 	    			<button class="btn btn-flat btn-default col-sm-12" style="text-align: left" onclick="GetData(this)" idPertanyaan="1">
@@ -174,7 +186,7 @@
 	      <h3 class="box-title">Grafik</h3>
 	    </div>
 	    <div class="box-body">
-	    	<h4 id="headerChart">Pilih salah satu pertanyaan</h4>
+	    	<h5 id="headerChart">Pilih salah satu head truck dan pertanyaan</h5>
 	    	<div class="col-sm-12">
 	    		<canvas id="barChart" style="height:230px"></canvas>
 	    	</div>
