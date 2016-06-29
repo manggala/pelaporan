@@ -1,4 +1,4 @@
-package android.trikarya.pelaporanpo;
+package master;
 
 /**
  * Created by mustofa on 6/25/2016.
@@ -9,6 +9,10 @@ public class User {
     private String username;
     private String password;
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
     public User(int id, String nama, String username, String password) {
         this.id = id;
         this.nama = nama;
