@@ -31,7 +31,7 @@
 
     <dimen name="footer_tv_size_small">12sp</dimen>
     <dimen name="dashboard_padding">8dp</dimen>
-    <dimen name="iv_size_dash">120dp</dimen>
+    <dimen name="iv_size_dash">80dp</dimen>
     <dimen name="iv_size_takePhoto">90dp</dimen>
     <dimen name="icon_listview_size">70dp</dimen>
     <dimen name="imuser_size">70dp</dimen>

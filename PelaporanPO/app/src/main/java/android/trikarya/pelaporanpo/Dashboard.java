@@ -18,6 +18,8 @@ public class Dashboard extends AppCompatActivity {
             intent = new Intent(this,PO.class);
         else if (v.getId()==R.id.nm)
             intent = new Intent(this,NearMiss.class);
+        else if (v.getId()==R.id.riwayat)
+            intent = new Intent(this,Riwayat.class);
         else {
             DatabaseHandler databaseHandler = new DatabaseHandler(this);
             databaseHandler.deleteUser();

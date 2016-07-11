@@ -17,6 +17,7 @@ import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
 import master.PreOperation;
+import master.RiwayatModel;
 import master.ServerRequest;
 import master.StoreDataCallback;
 
@@ -128,7 +129,7 @@ public class PO extends AppCompatActivity {
                         submit.setText("Submit");
                 }
                 else if(count == 4){
-                    String tgl = String.valueOf(calendar.get(calendar.YEAR)) + "-" + String.valueOf(calendar.get(calendar.MONTH) + 1) + "-" + String.valueOf(calendar.get(calendar.DAY_OF_MONTH));
+                    final String tgl = String.valueOf(calendar.get(calendar.YEAR)) + "-" + String.valueOf(calendar.get(calendar.MONTH) + 1) + "-" + String.valueOf(calendar.get(calendar.DAY_OF_MONTH));
                     ServerRequest serverRequest = new ServerRequest(this);
                     serverRequest.storePO(this, new PreOperation(headTruck.getText().toString(), shift.getText().toString(), tgl, hourMeter.getText().toString(), kilometer.getText().toString(),
                             soal1.getSelectedItem().toString(), soal2.getSelectedItem().toString(), soal3.getSelectedItem().toString(), soal4.getSelectedItem().toString(), soal5.getSelectedItem().toString(),
@@ -138,10 +139,12 @@ public class PO extends AppCompatActivity {
                             soal21.getSelectedItem().toString(), soal22.getSelectedItem().toString(), soal23.getSelectedItem().toString(), soal24.getSelectedItem().toString(), soal25.getSelectedItem().toString(),
                             soal26.getSelectedItem().toString(), ket.getText().toString()), new StoreDataCallback() {
                         @Override
-                        public void Done(String status) {
+                        public void Done(String status,int id) {
                             if(status.equals("sukses")) {
                                 Toast.makeText(PO.this, "Upload Data Sukses", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(PO.this,Dashboard.class));
+                                DatabaseHandler databaseHandler = new DatabaseHandler(PO.this);
+                                databaseHandler.createRiwayat(new RiwayatModel(id,"Pre Operation",tgl,0));
+                                startActivity(new Intent(PO.this, Dashboard.class));
                                 finish();
                             }
                             else

@@ -8,16 +8,27 @@ public class User {
     private String nama;
     private String username;
     private String password;
+    private String gcmId;
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
-    public User(int id, String nama, String username, String password) {
+
+    public User(int id, String nama, String username, String password, String gcmId) {
         this.id = id;
         this.nama = nama;
         this.username = username;
         this.password = password;
+        this.gcmId = gcmId;
+    }
+
+    public String getGcmId() {
+        return gcmId;
+    }
+
+    public void setGcmId(String gcmId) {
+        this.gcmId = gcmId;
     }
 
     public int getId() {

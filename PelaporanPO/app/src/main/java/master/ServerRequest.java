@@ -93,7 +93,8 @@ public class ServerRequest {
                     String nama = jsonResponse.getString("nama");
                     String username = jsonResponse.getString("username");
                     String password= jsonResponse.getString("password");
-                    returnedUser = new User(kode, nama, username, password);
+                    String gcmID = jsonResponse.getString("gcmID");
+                    returnedUser = new User(kode, nama, username, password,gcmID);
                 }
                 reader.close();
                 inputStream.close();
@@ -160,7 +161,88 @@ public class ServerRequest {
                     progressDialog.dismiss();
                     try {
                         if (response.length() != 0) {
-                            storeDataCallback.Done(response.getString("status"));
+                            int id = 0;
+                            if(response.has("id"))
+                                id = response.getInt("id");
+                            storeDataCallback.Done(response.getString("status"),id);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    progressDialog.dismiss();
+                    Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+            RequestQueue requestQueue = Volley.newRequestQueue(context, hurlStack);
+            RetryPolicy policy = new DefaultRetryPolicy(CONNECTION_TIMEOUT, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            jsonObjectRequest.setRetryPolicy(policy);
+            requestQueue.add(jsonObjectRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void storeNM(final Context context, Nearmiss nearmiss, final StoreDataCallback storeDataCallback) {
+        progressDialog.show();
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id_operator",databaseHandler.getUser().getId());
+            jsonObject.put("tanggal",nearmiss.getTanggal());
+            jsonObject.put("tahapan",nearmiss.getTahapan());
+            jsonObject.put("saksi",nearmiss.getSaksi());
+            jsonObject.put("penyebab",nearmiss.getPenyebab());
+            jsonObject.put("penjelasan",nearmiss.getPenjelasan());
+            jsonObject.put("lokasi",nearmiss.getLokasi());
+            jsonObject.put("kerjaan",nearmiss.getKerjaan());
+            jsonObject.put("foto1",nearmiss.getFoto1());
+            jsonObject.put("foto2",nearmiss.getFoto2());
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, SERVER_ADDRESS + "setNM", jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    progressDialog.dismiss();
+                    try {
+                        if (response.length() != 0) {
+                            int id = 0;
+                            if(response.has("id"))
+                                id = response.getInt("id");
+                            storeDataCallback.Done(response.getString("status"),id);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    progressDialog.dismiss();
+                    Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+            RequestQueue requestQueue = Volley.newRequestQueue(context, hurlStack);
+            RetryPolicy policy = new DefaultRetryPolicy(CONNECTION_TIMEOUT, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            jsonObjectRequest.setRetryPolicy(policy);
+            requestQueue.add(jsonObjectRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void storeGCMID(final Context context, User user, final GetAllDataCallback getAllDataCallback) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("kd_user", user.getId());
+            jsonObject.put("id_gcm", user.getGcmId());
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, SERVER_ADDRESS + "setIdGCM", jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    progressDialog.dismiss();
+                    try {
+                        if (response.length() != 0) {
+                            getAllDataCallback.Done(response.getString("status"));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

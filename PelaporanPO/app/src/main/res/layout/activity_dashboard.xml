@@ -30,6 +30,17 @@
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
         android:textColor="@android:color/white"/>
     <Button
+        android:id="@+id/riwayat"
+        android:onClick="pilihMenu"
+        android:layout_width="@dimen/bt_width"
+        android:layout_height="@dimen/iv_size_dash"
+        android:background="@drawable/shape_green_young"
+        android:text="@string/menu4"
+        android:textSize="@dimen/bt_textsize"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:textColor="@android:color/white"/>
+    <Button
         android:id="@+id/metu"
         android:onClick="pilihMenu"
         android:layout_width="@dimen/bt_width"
