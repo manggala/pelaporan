@@ -32,3 +32,9 @@ Route::get('/ajax/detail/{tipe}/{id}', 'AjaxController@detail');
 Route::get('/ajax/konfirmasi/{tipe}/{id}', 'AjaxController@konfirmasi');
 
 Route::get('/nearmiss', ['as' => 'nearmiss', 'uses' => 'NearmissController@index']);
+
+Route::get("/nearmiss/download/report-nearmiss-{id}.pdf", ["as" => "download.nearmiss", "uses" => "NearmissController@downloadNearmiss"]);
+
+Route::post('/formhse', ['as' => 'formhse', 'uses' => 'NearmissController@formhse']);
+
+Route::get("/previewTable", "NearmissController@previewTable");

@@ -38,6 +38,7 @@
 	                  <td>
 	                  	<button class="btn btn-sm btn-flat btn-success" data-toggle="modal" data-target="#detailModal" onclick="detailModal(this)" tipe="nm" idTipe="{{ $data->id_nearmiss}}">Lihat Hasil</button>
 	                  	<button class="btn btn-sm btn-flat btn-warning" data-toggle="modal" data-target="#konfirmasiModal" onclick="konfirmasiModal(this)" tipe="nm" idTipe="{{ $data->id_nearmiss}}">Konfirmasi</button>
+	                  	<button class="btn btn-sm btn-flat btn-danger" data-toggle="modal" data-target="#konfirmasiModal" onclick="konfirmasiModal(this)" tipe="nm-hse" idTipe="{{ $data->id_nearmiss}}">Konfirmasi HSE</button>
 	                  </td>
 	                </tr>
 	                @endforeach

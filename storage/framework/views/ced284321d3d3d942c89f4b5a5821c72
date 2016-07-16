@@ -1,0 +1,97 @@
+<?php $__env->startSection("main_content"); ?>
+<div id="content">
+  <div class="col-md-12" style="padding:20px;">
+    <div class="col-md-12 mail-wrapper">
+          
+        <div class="col-md-12 padding-0">
+            <div class="col-md-3 mail-left">
+                <div class="col-md-12 mail-left-header">
+                      <center>
+                      <a href="baru" class="btn btn-danger btncompose-mail" value="Compose Mail" >Buat Pengaduan</a>
+                      </center>
+                </div>
+                <div class="col-md-12 mail-left-content">
+                     <ul class="nav">
+                        <li></li>
+                        <li><h5>Folder</h5></li>
+                        <?php if($jenisPrivilege == 1): ?>
+                        <li>
+                          <a href="" class="active"><span class="fa fa-inbox"></span> Jawaban</a>
+                        </li>
+                        <?php else: ?>
+                        <li>
+                          <a href="" class="active"><span class="fa fa-send-o"></span> Aduan</a>
+                        </li>
+                        <?php endif; ?>
+                        <li>
+                          <a href=""><span class="fa fa-trash"></span> Trash</a>
+                        </li>
+                        <li><hr/></li>
+                        <li><h5>Categories</h5></li>
+                        <li>
+                          <a href=""><div class="fa fa-circle text-primary"></div> Komisi 1</a>
+                        </li>
+                         <li>
+                          <a href=""><div class="fa fa-circle text-success"></div> Komisi 2</a>
+                        </li>
+                         <li>
+                          <a href=""><div class="fa fa-circle text-info"></div> Komisi 3</a>
+                        </li>
+                         <li>
+                          <a href=""><div class="fa fa-circle text-warning"></div> Komisi 4</a>
+                        </li>
+                        <li>
+                          <a href=""><span class="fa fa-circle text-danger"></span> Komisi 5</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-9 mail-right">
+                <div class="col-md-12 mail-right-header">
+                  <div class="col-md-10 col-sm-10 padding-0">
+                       <div class="input-group searchbox-v1">
+                        <span class="input-group-addon  border-none box-shadow-none" id="basic-addon1">
+                          <span class="fa fa-search"></span>
+                        </span>
+                        <input type="text" class="txtsearch border-none box-shadow-none" placeholder="Cari Aduan ..." aria-describedby="basic-addon1">
+                      </div>
+                  </div>
+                  <div class="col-md-2 col-sm-2 padding-0 text-right mail-right-options">
+                       <div class="btn-group pull-right right-option-v1">
+                          <i class="fa fa-ellipsis-v right-option-v1-icon" data-toggle="dropdown"></i>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Hapus yang Terseleksi</a></li>
+                          </ul>
+                        </div>
+                  </div>
+                </div>
+                <div class="col-md-12 mail-right-content">
+                  <table class="table table-hover">
+                    <?php foreach($pengaduan as $p): ?>
+                      <?php if($p->terlihatPengaduan == 0): ?>
+                        <tr class="unread">
+                      <?php else: ?>
+                        <tr class="read">
+                      <?php endif; ?>
+                          <td class="check"><input type="checkbox" class="icheck" name="checkbox1" /></td>
+                          <td class="contact">
+                            <a href="<?php echo e(URL::to('pengaduan/detail/'.$p->idPengaduan)); ?>"><?php echo e($p->subjectPengaduan); ?>  </a>
+                          </td>
+                           <td class="subject">
+                              <?php if(strlen($p->isiPengaduan) > 100): ?>
+                                <a href="<?php echo e(URL::to('pengaduan/detail/'.$p->idPengaduan)); ?>"><?php echo e(substr($p->isiPengaduan, 0, 100)); ?></a>
+                              <?php else: ?>
+                                <a href="<?php echo e(URL::to('pengaduan/detail/'.$p->idPengaduan)); ?>"><?php echo e($p->isiPengaduan); ?></a>
+                              <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                  </table>
+              </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make("default", ['jenisPrivilege' => $jenisPrivilege], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

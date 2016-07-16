@@ -1,0 +1,202 @@
+<?php $__env->startSection("main_content"); ?>
+          <div id="content">
+            <div class="col-md-12" style="padding:20px;">
+              <div class="col-md-12 mail-wrapper">
+                    
+                  <div class="col-md-12 padding-0">
+                      <div class="col-md-3 mail-left">
+                          <div class="col-md-12 mail-left-header">
+                                <center>
+                                <a href="<?php echo e(URL::to('pengaduan/baru')); ?>" class="btn btn-danger btncompose-mail" value="Compose Mail" >Buat Pengaduan</a>
+                                </center>
+                          </div>
+                          <div class="col-md-12 mail-left-content">
+                               <ul class="nav">
+                                  <li></li>
+                                  <li><h5>Folder</h5></li>
+                                  <?php if($jenisPrivilege == 1): ?>
+                                  <li>
+                                    <a href="<?php echo e(URL::to('pengaduan')); ?>" class="active"><span class="fa fa-inbox"></span> Jawaban</a>
+                                  </li>
+                                  <?php else: ?>
+                                  <li>
+                                    <a href="<?php echo e(URL::to('pengaduan')); ?>" class="active"><span class="fa fa-send-o"></span> Aduan</a>
+                                  </li>
+                                  <?php endif; ?>
+                                  <li>
+                                    <a href=""><span class="fa fa-trash"></span> Trash</a>
+                                  </li>
+                                  <li><hr/></li>
+                                  <li><h5>Categories</h5></li>
+                                  <li>
+                                    <a href=""><div class="fa fa-circle text-primary"></div> Komisi 1</a>
+                                  </li>
+                                   <li>
+                                    <a href=""><div class="fa fa-circle text-success"></div> Komisi 2</a>
+                                  </li>
+                                   <li>
+                                    <a href=""><div class="fa fa-circle text-info"></div> Komisi 3</a>
+                                  </li>
+                                   <li>
+                                    <a href=""><div class="fa fa-circle text-warning"></div> Komisi 4</a>
+                                  </li>
+                                  <li>
+                                    <a href=""><span class="fa fa-circle text-danger"></span> Komisi 5</a>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                      <div class="col-md-9 mail-right">
+                          <div class="col-md-12 mail-right-header">
+                            <div class="col-md-10 col-sm-10 padding-0">
+                                 <div class="input-group searchbox-v1">
+                                  <span class="input-group-addon  border-none box-shadow-none" id="basic-addon1">
+                                    <span class="fa fa-search"></span>
+                                  </span>
+                                  <input type="text" class="txtsearch border-none box-shadow-none" placeholder="Search Email..." aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 padding-0 text-right mail-right-options">
+                                 <div class="btn-group pull-right right-option-v1">
+                                    <i class="fa fa-ellipsis-v right-option-v1-icon" data-toggle="dropdown"></i>
+                                    <ul class="dropdown-menu" role="menu">
+                                      <li><a href="#">Verifikasi</a></li>
+                                      <li><a href="#">Hapus pesan ini</a></li>
+                                    </ul>
+                                  </div>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-xs-12 mail-right-tool">
+                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                <h4><span>Subject:</span> <b><?php echo e($pengaduan->subjectPengaduan); ?></b></h4>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <h5><span>Dari :</span> <?php echo e($pengaduan->namaPelapor); ?></h5>
+                                <span class="pull-right"><?php echo e($pengaduan->tanggalPengaduan); ?></span>
+                            </div>                       
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-xs-12 mail-right-content padding-0">
+                             <div class="col-md-12 col-sm-12 col-xs-12 mail-right-text">
+                                <?php echo $pengaduan->isiPengaduan; ?>
+
+                             </div>
+                             <div class="col-md-12 col-sm-12 col-xs-12"><hr/></div>
+                             <!--div class="col-md-12 col-sm-12 col-xs-12">
+                                <h5 style="margin-bottom:20px;"><span></span> Attachment</h5>
+                                <div class="col-md-12 padding-0">
+                                    <div class="col-md-3  col-sm-4 col-xs-12 mail-attachment mail-attachment-icon">
+                                        <div class="col-md-12 padding-0">
+                                          <center>
+                                          <span class="fa fa-file-pdf-o type-icon"></span>
+                                          </center>
+                                        </div>
+                                        <div class="col-md-12 padding-0">
+                                          <center>
+                                          <span class="label label-danger">
+                                            <span class="fa fa-cloud-download"></span>
+                                            Training.pdf
+                                          </span>
+                                          </center>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-12 mail-attachment mail-attachment-image">
+                                        <div class="col-md-12">
+                                            <div class="thumbnail">
+                                              <img src="asset/img/bg1.jpg" alt="Photo">
+                                              <div class="caption">
+                                                <center>
+                                                <span class="label label-danger">
+                                                  <span class="fa fa-cloud-download"></span>
+                                                  Photo2...jpg
+                                                </span>
+                                                </center>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-12 mail-attachment mail-attachment-icon">
+                                          <div class="col-md-12 padding-0">
+                                            <center>
+                                            <span class="fa fa-file-sound-o type-icon"></span>
+                                            </center>
+                                          </div>
+                                          <div class="col-md-12 padding-0">
+                                            <center>
+                                            <span class="label label-danger">
+                                              <span class="fa fa-cloud-download"></span>
+                                              Training.mp3
+                                            </span>
+                                            </center>
+                                          </div>
+                                      </div>
+                                       <div class="col-md-3 col-sm-4 col-xs-12 mail-attachment mail-attachment-icon">
+                                          <div class="col-md-12 padding-0">
+                                            <center>
+                                            <span class="fa fa-file-video-o type-icon"></span>
+                                            </center>
+                                          </div>
+                                          <div class="col-md-12 padding-0">
+                                            <center>
+                                            <span class="label label-danger">
+                                              <span class="fa fa-cloud-download"></span>
+                                              Training.mp4
+                                            </span>
+                                            </center>
+                                          </div>
+                                      </div>
+                                </div>
+                             </div-->
+                             <?php if(count($jawabanPengaduan) >0): ?>
+                             <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 50px">
+                              <h3>Jawaban Admin: </h3>
+                              <?php foreach($jawabanPengaduan as $jp): ?>
+                              <div class="row">
+                                <div class="col-md-8">
+                                  <?php echo $jp->isiJawaban; ?>
+
+                                </div>
+                                <div class="col-md-4" style="align: right">
+                                  <?php echo e($jp->created_at); ?>
+
+                                </div>
+                              </div>
+                                <hr>
+                              <?php endforeach; ?>
+                             </div>
+                             <?php endif; ?>
+                             <?php if($jenisPrivilege == 2): ?>
+                             <?php echo Form::open(array('route' => 'pengaduan.jawab', 'method' => 'POST')); ?>
+
+                              <?php echo Form::hidden('idPengaduan', $pengaduan->idPengaduan); ?>
+
+                              <?php echo Form::textarea('isiJawaban', null, array('class' => 'summernote')); ?>
+
+                              <?php echo Form::submit('Balas', ['class' => 'btn btn-danger pull-right']); ?>
+
+                               <!--div class="col-md-12 col-sm-12 col-xs-12 mail-reply">
+                                  <textarea class="summernote" placeholder="Tulis Pesan"></textarea>
+                                  <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                      <input type="submit" value="Balas" class="btn btn-danger pull-right"/>
+                                  </div>
+                               </div-->
+                             <?php echo Form::close(); ?>
+
+                             <?php endif; ?>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <script src="<?php echo e(URL::asset('asset/js/jquery.min.js')); ?>"></script>
+          <script src="<?php echo e(URL::asset('asset/js/jquery.ui.min.js')); ?>"></script>
+          <script src="<?php echo e(URL::asset('asset/js/bootstrap.min.js')); ?>"></script>
+          <script src="<?php echo e(URL::asset('asset/js/plugins/summernote.min.js')); ?>"></script>
+          <script type="text/javascript">
+          $('.summernote').summernote({
+            height: 300
+          });
+          $(".note-codable").hide();
+          </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make("default", ['jenisPrivilege' => $jenisPrivilege], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

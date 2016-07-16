@@ -1,3 +1,10 @@
+@if($Nearmiss[0]->status_nearmiss > 0)
+<div class="row">
+	<a class="btn btn-flat col-offset-1 btn-md btn-warning" href="{{URL::to('/nearmiss/download/report-nearmiss-'.$Nearmiss[0]->id_nearmiss.'.pdf')}}">
+		Download Laporan
+	</a>
+</div>
+@endif
 <div class="row">
 	<div class="col-sm-12">
 		<div class="row" style="border-bottom: solid #ddd 0.1px; padding: 3px">

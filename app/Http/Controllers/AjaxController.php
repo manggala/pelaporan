@@ -2,6 +2,7 @@
 use DB;
 use App\Operator;
 use App\PreOperation;
+use App\Nearmiss;
 class AjaxController extends Controller {
 
 	public function detail($tipe, $id){ 
@@ -33,7 +34,24 @@ class AjaxController extends Controller {
 			if (count($preOperation) > 0)
 				return View('Ajax.PreOperation.konfirmasi', ["preOperation" => $preOperation]);
 		} else if ($tipe == "nm"){
-			return View('Ajax.Nearmiss.konfirmasi');
+			$nearmiss = Nearmiss::where("id_nearmiss", "=", $id)->get();
+			$status = $nearmiss[0]->status_nearmiss;
+			if ($status == 0){
+				Nearmiss::where("id_nearmiss", "=", $id)->update(["status_nearmiss" => 1]);
+				$status = 0;
+			} 
+			return View('Ajax.Nearmiss.terima', ["status" => $status]);
+		} else if ($tipe == "nm-hse"){
+			$nearmiss = DB::table("nearmiss")
+						->where("id_nearmiss", "=", $id)
+						->where("status_nearmiss", "=", 1)
+						->get();
+			$konfirmasi_nearmiss = DB::table("konfirmasi_nearmiss")
+									->where("id_nearmiss", "=", $id)
+									->get();
+			return View('Ajax.Nearmiss.konfirmasi', [
+				"nearmiss" => $nearmiss, 
+				"konfirmasi_nearmiss" => $konfirmasi_nearmiss]);
 		}
 	}
 

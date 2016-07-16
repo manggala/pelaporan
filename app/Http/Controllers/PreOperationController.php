@@ -36,7 +36,6 @@ class PreOperationController extends Controller {
 			return Redirect()->to("preoperation");
 		}
 		echo "<h2>Data Tidak Ditemukan</h2>";
-
 	}
 
 	public function grafik(){

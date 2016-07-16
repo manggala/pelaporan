@@ -1,0 +1,74 @@
+<?php $__env->startSection("main_content"); ?>
+<div id="content">
+	<div class="col-md-12 panel">
+		<div class="col-md-12 panel-heading">
+		  <h4>Identitas Pengguna</h4>
+		</div>
+		<div class="col-md-12 panel-body" style="padding-bottom:30px;">
+		  <div class="col-md-12">
+		  	<?php echo Form::open(array('route' => 'biodata.update', 'method' => 'POST', 'class' => 'comxform', 'id' => 'signupForm')); ?>
+
+		      <div class="col-md-6">
+		        <div class="form-group form-animate-text" style="margin-top:40px !important;">
+		        	<?php echo Form::text('namaPelapor', $user->namaPelapor, ['class' => 'form-text', 'id' => 'validate_lastname']); ?>
+
+		        	<span class="bar"></span>
+		        	<?php echo Form::label('namaPelapor', 'Nama'); ?>
+
+		        </div>
+		        <div class="form-group form-animate-text" style="margin-top:40px !important;">
+		        	<?php echo Form::text('alamatPelapor', $user->alamatPelapor, ['class' => 'form-text', 'id' => 'alamat']); ?>
+
+		        	<span class="bar"></span>
+		        	<?php echo Form::label('alamatPelapor', 'Alamat'); ?>
+
+		        </div>
+
+		        <div class="form-group form-animate-text" style="margin-top:40px !important;">
+		          	<?php echo Form::email('emailPelapor', $user->emailPelapor, ['class' => 'form-text', 'id' => 'email']); ?>
+
+		        	<span class="bar"></span>
+		        	<?php echo Form::label('emailPelapor', 'E mail'); ?>
+
+		        </div>
+		        <div class="form-group form-animate-text" style="margin-top:40px !important;">
+		        	<?php echo Form::hidden('nomorKTPPelapor', $user->nomorKTPPelapor, ['class' => 'form-text', 'id' => 'alamat']); ?>
+
+		        	<span class="bar"></span>
+		        </div>
+		        
+		      </div>
+
+		      <div class="col-md-6">
+		      	<div class="form-group form-animate-text" style="margin-top:40px !important;">
+		          	<?php echo Form::input('date', 'tanggalLahirPelapor', $user->tanggalLahirPelapor, ['class' => 'form-text', 'id' => 'alamat']); ?>
+
+		        	<span class="bar"></span>
+		        	<?php echo Form::label('tanggalLahirPelapor', 'Tanggal Lahir'); ?>
+
+		        </div>
+		        <div class="form-group form-animate-text" style="margin-top:40px !important;">
+		          	<?php echo Form::text('tempatLahirPelapor', $user->tempatLahirPelapor, ['class' => 'form-text', 'id' => 'alamat']); ?>
+
+		        	<span class="bar"></span>
+		        	<?php echo Form::label('tempatLahirPelapor', 'Tempat Lahir'); ?>
+
+		        </div>
+		        <div class="form-group form-animate-text" style="margin-top:40px !important;">
+		        	<?php echo Form::input('password', 'passwordPelapor', null, ['class' => 'form-text', 'id' => 'alamat']); ?>
+
+		        	<span class="bar"></span>
+		        	<?php echo Form::label('password', 'Konfirmasi Password'); ?>
+
+		        </div>
+		      </div>                   
+		      <div class="col-md-12">
+		          <input class="submit btn btn-danger" type="submit" value="Submit">
+		    </div>
+		  <?php echo Form::close(); ?>
+
+		</div>
+	</div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make("default", ['jenisPrivilege' => $jenisPrivilege], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
