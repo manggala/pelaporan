@@ -38,3 +38,7 @@ Route::get("/nearmiss/download/report-nearmiss-{id}.pdf", ["as" => "download.nea
 Route::post('/formhse', ['as' => 'formhse', 'uses' => 'NearmissController@formhse']);
 
 Route::get("/previewTable", "NearmissController@previewTable");
+
+Route::post('/login', ['as' => 'doLogin', 'uses' => 'WelcomeController@doLogin']);
+
+Route::get('/logout', ['as' => 'logout', 'uses' => 'WelcomeController@logout']);

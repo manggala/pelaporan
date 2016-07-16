@@ -1,6 +1,9 @@
 <?php namespace App\Http\Controllers;
+use Illuminate\Http\Request;
 use DB;
-use App\Operator;
+use App\Supervisi;
+use Session;
+use Input;
 class WelcomeController extends Controller {
 
 	/*
@@ -25,7 +28,7 @@ class WelcomeController extends Controller {
 	}
 
 	/**
-	 * Show the application welcome screen to the user.
+	 * Show the application welcome screen to the supervisi.
 	 *
 	 * @return Response
 	 */
@@ -40,5 +43,23 @@ class WelcomeController extends Controller {
 
 	public function login(){
 		return View("Main.login");
+	}
+
+	public function logout(){
+		Session::forget("supervisiSession");
+		return redirect()->route("login");
+	}
+
+	public function doLogin(){
+		$supervisi = Supervisi::where('username', Input::get('username'))->where('password', Input::get('password'))->first();
+		
+		if (count($supervisi) > 0){
+			Session::set('supervisiSession', $supervisi);
+			$sessionData = Session::get('supervisiSession');
+			
+			return redirect()->route('home');
+		} else {
+			return redirect()->route('login');
+		}
 	}
 }

@@ -33,13 +33,14 @@
   <div class="login-box-body">
     <p class="login-box-msg">Masuk untuk memulai</p>
 
-    <form action="#" method="post">
+    <form action="{{URL::to('login')}}" method="post">
+      <input type="hidden" name="_token" value="{{ csrf_token() }}">
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email">
+        <input type="username" class="form-control" placeholder="Username" name="username">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password">
+        <input type="password" class="form-control" placeholder="Password" name="password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
@@ -52,8 +53,8 @@
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <!--button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button-->
-          <a href="{{URL::to('dashboard')}}" class="btn btn-success btn-block btn-flat">Masuk</a>
+          <button type="submit" class="btn btn-success btn-block btn-flat">Sign In</button>
+          
         </div>
         <!-- /.col -->
       </div>

@@ -3,6 +3,9 @@ use DB;
 use App\Operator;
 use App\PreOperation;
 use App\Nearmiss;
+use Illuminate\Http\Request;
+use Input;
+use Session;
 class AjaxController extends Controller {
 
 	public function detail($tipe, $id){ 
@@ -42,13 +45,19 @@ class AjaxController extends Controller {
 			} 
 			return View('Ajax.Nearmiss.terima', ["status" => $status]);
 		} else if ($tipe == "nm-hse"){
-			$nearmiss = DB::table("nearmiss")
-						->where("id_nearmiss", "=", $id)
-						->where("status_nearmiss", "=", 1)
-						->get();
+			$sessionData = Session::get('supervisiSession');
+			$nearmiss = "";
+			if ($sessionData->jenis_supervisi != "K3"){
+				$nearmiss = "nothse";
+			} else{
+				$nearmiss = DB::table("nearmiss")
+							->where("id_nearmiss", "=", $id)
+							->where("status_nearmiss", "=", 1)
+							->get();
+			}
 			$konfirmasi_nearmiss = DB::table("konfirmasi_nearmiss")
-									->where("id_nearmiss", "=", $id)
-									->get();
+								->where("id_nearmiss", "=", $id)
+								->get();
 			return View('Ajax.Nearmiss.konfirmasi', [
 				"nearmiss" => $nearmiss, 
 				"konfirmasi_nearmiss" => $konfirmasi_nearmiss]);
