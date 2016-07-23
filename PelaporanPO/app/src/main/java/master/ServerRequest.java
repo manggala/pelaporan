@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.trikarya.pelaporanpo.DatabaseHandler;
+import android.trikarya.pelaporanpo.Riwayat;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -27,7 +28,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 /**
@@ -40,7 +43,7 @@ public class ServerRequest {
     Calendar calendar = Calendar.getInstance();
     String tgl;
     public static final int CONNECTION_TIMEOUT = 1000*90;
-    public static final String SERVER_ADDRESS =  "http://dmazter.hol.es/public/";
+    public static final String SERVER_ADDRESS =  "http://preop-nearmiss.manggala12.com/public/";
     Context context;
     public ServerRequest(Context context)
     {
@@ -53,72 +56,39 @@ public class ServerRequest {
         progressDialog.setTitle("Processing");
         progressDialog.setMessage("Please Wait");
     }
-    public void fetchUserDataInBackground(User user, GetUserCallback userCallback)
-    {
+    public void fetchUserDataInBackground(User user, final GetUserCallback userCallback){
         progressDialog.show();
-        new FetchUserDataAsyncTask(user,userCallback).execute();
-    }
-    public class FetchUserDataAsyncTask extends AsyncTask<Void, Void, User> {
-        User user;
-        GetUserCallback userCallback;
-        String message;
-
-        public FetchUserDataAsyncTask(User user, GetUserCallback userCallback) {
-            this.user = user;
-            this.userCallback = userCallback;
-        }
-
-        @Override
-        protected User doInBackground(Void... params) {
-            User returnedUser = null;
-            try {
-                URL url = new URL(SERVER_ADDRESS + "login/" +user.getUsername()+"/"+user.getPassword());
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(15000);
-                conn.setConnectTimeout(CONNECTION_TIMEOUT);
-                conn.connect();
-                InputStream inputStream = conn.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                String line = "";
-                StringBuilder stringBuilder = new StringBuilder();
-                while((line = reader.readLine()) != null)
-                {
-                    stringBuilder.append(line);
-                }
-                String response = stringBuilder.toString();
-                JSONObject jsonResponse = new JSONObject(response);
-                if(jsonResponse.length()!=0)
-                {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, SERVER_ADDRESS + "login_mob/" +user.getUsername()+"/"+user.getPassword()
+                , null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonResponse) {
+                progressDialog.dismiss();
+                try {
                     int kode = jsonResponse.getInt("id_operator");
                     String nama = jsonResponse.getString("nama");
                     String username = jsonResponse.getString("username");
                     String password= jsonResponse.getString("password");
-                    String gcmID = jsonResponse.getString("gcmID");
-                    returnedUser = new User(kode, nama, username, password,gcmID);
+                    String gcmID = jsonResponse.getString("id_gcm");
+                    userCallback.Done(new User(kode, nama, username, password,0,gcmID));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    userCallback.Done(null);
                 }
-                reader.close();
-                inputStream.close();
-                conn.disconnect();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                message = e.getMessage();
-            } catch (IOException e) {
-                e.printStackTrace();
-                message = e.getMessage();
-            } catch (JSONException e) {
-                e.printStackTrace();
-                message = e.getMessage();
             }
-            return returnedUser;
-        }
-
-        @Override
-        protected void onPostExecute(User returnedUser) {
-            progressDialog.dismiss();
-            userCallback.Done(returnedUser);
-            super.onPostExecute(returnedUser);
-        }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                Toast.makeText(context, "Get data failed", Toast.LENGTH_LONG);
+                userCallback.Done(null);
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(context, hurlStack);
+        RetryPolicy policy = new DefaultRetryPolicy(CONNECTION_TIMEOUT, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsonObjectRequest.setRetryPolicy(policy);
+        requestQueue.add(jsonObjectRequest);
     }
+
     public void storePO(final Context context, PreOperation preOperation, final StoreDataCallback storeDataCallback) {
         progressDialog.show();
         try {
@@ -263,5 +233,49 @@ public class ServerRequest {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    private void insertRiwayatToDB(List<RiwayatModel> riwayatList){
+        int count = riwayatList.size();
+        for(int i = 0; i < count; i++)
+            databaseHandler.createRiwayat(riwayatList.get(i));
+    }
+    public void getRiwayat(final Context context, final GetAllDataCallback getAllDataCallback){
+        progressDialog.setMessage("Downloading data, please wait");
+        progressDialog.show();
+        final List<RiwayatModel> riwayatList = new ArrayList<RiwayatModel>();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, SERVER_ADDRESS + "/getRiwayat/"+databaseHandler.getUser().getId()
+                , null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                progressDialog.dismiss();
+                try {
+                    JSONArray jsonArray = response.getJSONArray("riwayat");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonResponse = jsonArray.getJSONObject(i);
+                        if (jsonResponse.length() != 0) {
+                            riwayatList.add(new RiwayatModel(jsonResponse.getInt("id"),
+                                    jsonResponse.getString("jenis"),
+                                    jsonResponse.getString("tanggal"), jsonResponse.getInt("status")));
+                        }
+                    }
+                    insertRiwayatToDB(riwayatList);
+                    getAllDataCallback.Done(response.getString("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    getAllDataCallback.Done(e.getMessage());
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                getAllDataCallback.Done(error.toString());
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(context, hurlStack);
+        RetryPolicy policy = new DefaultRetryPolicy(CONNECTION_TIMEOUT, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsonObjectRequest.setRetryPolicy(policy);
+        requestQueue.add(jsonObjectRequest);
     }
 }

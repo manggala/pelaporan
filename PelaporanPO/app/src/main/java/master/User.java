@@ -5,6 +5,7 @@ package master;
  */
 public class User {
     private int id;
+    private int status;
     private String nama;
     private String username;
     private String password;
@@ -15,12 +16,21 @@ public class User {
         this.password = password;
     }
 
-    public User(int id, String nama, String username, String password, String gcmId) {
+    public User(int id, String nama, String username, String password, int status, String gcmId) {
         this.id = id;
+        this.status = status;
         this.nama = nama;
         this.username = username;
         this.password = password;
         this.gcmId = gcmId;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getGcmId() {

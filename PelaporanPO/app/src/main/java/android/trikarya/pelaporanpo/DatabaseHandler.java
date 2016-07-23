@@ -31,7 +31,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             KEY_STATUS = "status",
             TABLE_KONFIGURASI = "Konfigurasi",
             KEY_STATUS_APP = "status_app";
-    public DatabaseHandler(Context context){
+    public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -42,6 +42,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_NAMA_USER + " TEXT NOT NULL,"
                 + KEY_USERNAME + " TEXT NOT NULL,"
                 + KEY_PASSWORD + " TEXT NOT NULL,"
+                + KEY_STATUS + " INTEGER NOT NULL,"
                 + KEY_GCMID + " TEXT NOT NULL)");
         db.execSQL("CREATE TABLE " + TABLE_RIWAYAT +
                 "(" + KEY_ID + " INTEGER PRIMARY KEY NOT NULL,"
@@ -65,6 +66,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_NAMA_USER,user.getNama());
         values.put(KEY_USERNAME,user.getUsername());
         values.put(KEY_PASSWORD,user.getPassword());
+        values.put(KEY_STATUS,user.getStatus());
         values.put(KEY_GCMID,user.getGcmId());
         db.insert(TABLE_USER, null, values);
         values.clear();
@@ -74,12 +76,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = getReadableDatabase();
         User user = null;
-        Cursor cursor = db.query(TABLE_USER, new String[]{KEY_KODE_USER, KEY_NAMA_USER, KEY_USERNAME, KEY_PASSWORD, KEY_GCMID}
+        Cursor cursor = db.query(TABLE_USER, new String[]{KEY_KODE_USER, KEY_NAMA_USER, KEY_USERNAME, KEY_PASSWORD, KEY_STATUS, KEY_GCMID}
                 , null, null, null,null,null,null);
         if(cursor==null)
             return null;
         if(cursor.moveToFirst())
-            user = new User(cursor.getInt(0),cursor.getString(1),cursor.getString(2), cursor.getString(3), cursor.getString(4));
+            user = new User(cursor.getInt(0),cursor.getString(1),cursor.getString(2), cursor.getString(3),cursor.getInt(4), cursor.getString(5));
         cursor.close();
         db.close();
         return user;
@@ -107,6 +109,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_NAMA_USER,user.getNama());
         values.put(KEY_USERNAME,user.getUsername());
         values.put(KEY_PASSWORD, user.getPassword());
+        values.put(KEY_STATUS,user.getStatus());
+        values.put(KEY_GCMID,user.getGcmId());
         int isUpdate = db.update(TABLE_USER, values, KEY_KODE_USER + "=?", new String[]{String.valueOf(user.getId())});
         values.clear();
         db.close();
