@@ -112,8 +112,8 @@ td{
 		<td colspan="3" style="height: 100px">
 			<table width="100%" style="border:none">
 				<tr style="border:none">
-					<td style="width: 50%; border:none; text-align:center"><img src="{{URL::to($nearmiss[0]->bukti_1)}}" style="height:300px"></td>
-					<td style="width: 50%; border:none; text-align:center"><img src="{{URL::to($nearmiss[0]->bukti_2)}}" style="height:300px"></td>
+					<td style="width: 50%; border:none; text-align:center"><img src="{{URL::to('images_upload/'.$nearmiss[0]->bukti_1)}}" style="height:300px"></td>
+					<td style="width: 50%; border:none; text-align:center"><img src="{{URL::to('images_upload/'.$nearmiss[0]->bukti_2)}}" style="height:300px"></td>
 				</tr>
 			</table>
 		</td>

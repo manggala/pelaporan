@@ -34,7 +34,7 @@
     <p class="login-box-msg">Masuk untuk memulai</p>
 
     <form action="<?php echo e(URL::to('login')); ?>" method="post">
-      <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
+      <!-- <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>"> -->
       <div class="form-group has-feedback">
         <input type="username" class="form-control" placeholder="Username" name="username">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>

@@ -1,3 +1,10 @@
+@if($daftarPreOperation[0]->status_preOperation > 0)
+<div class="row">
+	<a class="btn btn-flat col-offset-1 btn-md btn-warning" href="{{URL::to('/preoperation/download/report-preoperation-'.$daftarPreOperation[0]->id_preOperation.'.pdf')}}">
+		Download Laporan
+	</a>
+</div>
+@endif
 <div class="row">
 	<div class="col-sm-12">
 		<div class="row">
